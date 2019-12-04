@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Kosmos</title>
+        
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+    </head>
+
+    <body>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Спринт</a></li>
+                <li class="breadcrumb-item"><a href="#">Неделя</a></li>
+                <li class="breadcrumb-item active" aria-current="page">День</li>
+            </ol>
+        </nav>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-1">
+                    <form method="POST" action="/week_list">{% csrf_token %}
+                        <input type="text" value="{{ sprintId }}" name="sprintId" hidden />
+                        <input type="text" value="{{ weekId }}" name="weekId" hidden />
+                        <button type="submit" class="btn btn-primary"><< Week</button>
+                    </form>
+                </div>
+
+                <div class="col-sm-3">
+                    <h5>День</h5>
+                    <form method="POST" action="/day_list">{% csrf_token %}
+                        <div class="form-group">
+                            <label for="day">Выбрать день</label>
+                            <select class="form-control" name="selectedId">
+                                {% for d in days %}
+                                    {% if d.pk == selected.pk %}
+                                        <option value="{{ d.pk }}" selected>{{ d.day_number }} - {{ d.day_date }}</option>
+                                    {% else %}
+                                        <option value="{{ d.pk }}">{{ d.day_number }} - {{ d.day_date }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <input type="text" value="{{ sprintId }}" name="sprintId" hidden />
+                        <input type="text" value="{{ weekId }}" name="weekId" hidden />
+                        <button type="submit" class="btn btn-primary">Выбрать</button>
+                    </form>
+                    <br>
+                    <form method="POST" action="/day_add_task">{% csrf_token %}
+                        <input type="text" value="{{ sprintId }}" name="sprintId" hidden />
+                        <input type="text" value="{{ weekId }}" name="weekId" hidden />
+                        <input type="text" value="{{ selectedId }}" name="selectedId" hidden />
+                        <input type="text" value="1" name="isMain" hidden/>
+                        <input type="text" name="inputField" />
+                        <button type="submit" class="btn btn-primary">Приоритет</button>
+                    </form>
+                    <br>
+                    <form method="POST" action="/day_add_task">{% csrf_token %}
+                        <input type="text" value="{{ sprintId }}" name="sprintId" hidden />
+                        <input type="text" value="{{ weekId }}" name="weekId" hidden />
+                        <input type="text" value="{{ selectedId }}" name="selectedId" hidden />
+                        <input type="text" value="0" name="isMain" hidden/>
+                        <input type="text" name="inputField" />
+                        <button type="submit" class="btn btn-primary">Другая</button>
+                    </form>
+                </div>
+                <div class="col-sm">
+                    <h4>Сегодня:</h4>
+
+                    <form method="POST" action="/day_update">{% csrf_token %}
+
+                        <h6>Приоритетные задачи:</h6>
+                        <div class="form-group">
+                            <ul>
+                                {% for m in mainTasks %}
+                                    {% if m.is_complete %}
+                                        <li>{{ m.text }} <input type="checkbox" name="m{{ m.pk }}" checked /></li>
+                                    {% else %}
+                                        <li>{{ m.text }} <input type="checkbox" name="m{{ m.pk }}" /></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <h6>Другие задачи:</h6>
+                        <div class="form-group">
+                            <ul>
+                                {% for o in otherTasks %}
+                                    {% if o.is_complete %}
+                                        <li>{{ o.text }} <input type="checkbox" name="o{{ o.pk }}" checked /></li>
+                                    {% else %}
+                                        <li>{{ o.text }} <input type="checkbox" name="o{{ o.pk }}" /></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <h4>Список привычек</h4>
+                        <div class="form-group">
+                            <ul>
+                                {% for h in habbits %}
+                                    {% for dh in dayHabbit %}
+                                        {% if h == dh.habbits_id %}
+                                            {% if dh.is_complete == 1 %}
+                                                <li>{{ h.text }} <input type="checkbox" name="dh{{ dh.pk }}" checked></li>
+                                            {% else %}
+                                                <li>{{ h.text }} <input type="checkbox" name="dh{{ dh.pk }}"></li>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <h4>Рефлексия</h4>
+
+                        <div class="form-group">
+                            <label for="ref1">Достижение дня</label>
+                            <input type="text" class="form-control" name="ref1" value="{{ selected.reflexy1 }}" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ref2">Сказать спасибо</label>
+                            <input type="text" class="form-control" name="ref2" value="{{ selected.reflexy2 }}" />
+                        </div>
+
+                        <input type="text" value="{{ sprintId }}" name="sprintId" hidden />
+                        <input type="text" value="{{ weekId }}" name="weekId" hidden />
+                        <input type="text" value="{{ selectedId }}" name="selectedId" hidden />
+                        <button type="submit" class="btn btn-primary">Обновить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+</html>
