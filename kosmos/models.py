@@ -5,9 +5,9 @@ from django.utils import timezone
 
 class Sprint(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    date_begin = models.DateField(blank=True, null=True)
-    date_end = models.DateField(blank=True, null=True)
-    reward = models.CharField(max_length=200)
+    date_begin = models.DateField()
+    date_end = models.DateField()
+    reward = models.CharField(max_length=200, blank=True, null=True)
 
     def publish(self):
         self.save()
@@ -42,12 +42,12 @@ class Week(models.Model):
     week_number = models.IntegerField()
     date_begin = models.DateField(blank=True, null=True)
     date_end = models.DateField(blank=True, null=True)
-    goal1 = models.TextField()
-    goal2 = models.TextField()
-    goal3 = models.TextField()
-    reflexy1 = models.TextField()
-    reflexy2 = models.TextField()
-    reflexy3 = models.TextField()
+    goal1 = models.TextField(blank=True, null=True)
+    goal2 = models.TextField(blank=True, null=True)
+    goal3 = models.TextField(blank=True, null=True)
+    reflexy1 = models.TextField(blank=True, null=True)
+    reflexy2 = models.TextField(blank=True, null=True)
+    reflexy3 = models.TextField(blank=True, null=True)
     sprint_id = models.ForeignKey('Sprint', on_delete=models.CASCADE)
 
     def publish(self):
@@ -58,9 +58,9 @@ class Week(models.Model):
 
 class Day(models.Model):
     day_number = models.IntegerField()
-    day_date = models.DateField(blank=True, null=True)
-    reflexy1 = models.TextField()
-    reflexy2 = models.TextField()
+    day_date = models.DateField()
+    reflexy1 = models.TextField(blank=True, null=True)
+    reflexy2 = models.TextField(blank=True, null=True)
     week_id = models.ForeignKey('Week', on_delete=models.CASCADE)
 
     def publish(self):
