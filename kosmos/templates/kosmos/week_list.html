@@ -94,7 +94,9 @@
                         <input type="text" value="{{ sprintId }}" name="sprintId" hidden />
                         <input type="text" value="{{ selected.pk }}" name="weekId" hidden />
 
-                        <button type="submit" class="btn btn-primary">Обновить</button>
+                        {% if user.is_authenticated %}
+                            <button type="submit" class="btn btn-primary">Обновить</button>
+                        {% endif %}
                     </form>
                 </div>
             </div>
