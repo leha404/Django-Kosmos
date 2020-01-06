@@ -1,3 +1,4 @@
+from datetime import date, timedelta
 from django.shortcuts import render, redirect
 from django.db.models import Q, Sum
 from .models import Sprint, Goal, Habbit, Week, Day, Day_habbit, Task
@@ -31,8 +32,52 @@ def sprint_list(request):
 
     return render(request, 'kosmos/sprint_list.html', {'sprints': sprints, 'selected': selected, 'sprintId': sprintId, 'goals': goals, 'habbits': habbits})
 
+def sprint_data(request):
+    sprintId = request.POST.get("sprintId", "")
+    weeks = Week.objects.filter(sprint_id=sprintId).order_by('date_begin')
+
+    # TODO: Mock :)
+    if len(weeks) != 0:
+        return render(request, 'kosmos/oops.html', {'text': 'Данные уже есть, не тыкай эту кнопку :D'})
+    
+    sprints = Sprint.objects.order_by('date_begin')
+    
+    # Should write .get() or selected will be not an object, but QuerySet
+    selected = Sprint.objects.filter(pk=sprintId).get()
+
+    lastDate = selected.date_begin
+
+    # 9 weeks (like in "kosmos" methodology :D)
+    for i in range(1, 10):
+        nextDate = lastDate + timedelta(days=6)
+        Week.objects.create(week_number=i, date_begin=lastDate, date_end=nextDate, sprint_id=selected, goal1="", goal2="", goal3="", reflexy1="", reflexy2="", reflexy3="")
+        lastDate = nextDate + timedelta(days=1)
+
+    weeks = Week.objects.filter(sprint_id=sprintId).order_by('date_begin')
+
+    lastDate = selected.date_begin
+    habbits = Habbit.objects.filter(sprint_id=selected.pk)
+
+    for w in weeks:
+        for i in range(1, 8):
+            Day.objects.create(day_number=i, day_date=lastDate, week_id=w, reflexy1="", reflexy2="")
+            lastDate = lastDate + timedelta(days=1)
+        
+        days = Day.objects.filter(week_id=w)
+
+        for d in days:
+            for h in habbits:
+                Day_habbit.objects.create(is_complete=0, day_id=d, habbits_id=h)
+    
+    goals = sprint_get_goals(selected.pk)
+
+    if len(habbits) == 0:
+        habbits = []
+
+    return render(request, 'kosmos/sprint_list.html', {'sprints': sprints, 'selected': selected, 'sprintId': sprintId, 'goals': goals, 'habbits': habbits})
+
 def sprint_get_selected(request, sprintId, weekId):
-    sprints = Sprint.objects.all()
+    sprints = Sprint.objects.order_by('date_begin')
     
     # Should write .get() or selected will be not an object, but QuerySet
     selected = Sprint.objects.filter(pk=sprintId).get()

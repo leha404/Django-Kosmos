@@ -10,4 +10,5 @@ urlpatterns = [
     path('day_list', views.day_list, name='day_list'),
     path('day_add_task', views.day_add_task, name='day_add_task'),
     path('day_update', views.day_update, name='day_update'),
+    path('sprint_data', views.sprint_data, name='sprint_data'),
 ]

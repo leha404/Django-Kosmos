@@ -50,6 +50,17 @@
                         <button type="submit" class="btn btn-primary">Выбрать</button>
                     </form>
                     <br>
+                    {% if user.is_authenticated %}
+                        <p> Создает дни, недели и связки "привычка/день" автоматически. </p>
+                        <p> Перед созданием данных убедись, что создал привычки! И выбери нужный спринт </p>
+                        <p> Чисткой базы занимайся сам) Так что не тыкай и не чисти, если не уверен. Создай один раз) </p>
+                        
+                        <form method="POST" action="/sprint_data">{% csrf_token %}
+                            <input type="text" name="sprintId" hidden value="{{ selected.pk }}" />
+                            <button type="submit" class="btn btn-primary">Создать данные</button>
+                        </form>
+                    {% endif %}
+                    <br>
                 </div>
                 <div class="col-sm">
                     <div class="row">
