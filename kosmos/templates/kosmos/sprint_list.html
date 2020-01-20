@@ -14,9 +14,9 @@
     <body>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item active" aria-current="page">Спринт</li>
-                <li class="breadcrumb-item"><a href="#">Неделя</a></li>
-                <li class="breadcrumb-item"><a href="#">День</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Спринты</li>
+                <li class="breadcrumb-item"><a href="#">Недели</a></li>
+                <li class="breadcrumb-item"><a href="#">Дни</a></li>
             </ol>
         </nav>
 
@@ -28,12 +28,12 @@
                         {% if weekId != "" %}
                             <input type="text" value="{{ weekId }}" name="weekId" hidden />
                         {% endif %}
-                        <button type="submit" class="btn btn-primary">>> Неделя</button>
+                        <button type="submit" class="btn btn-primary">>> Недели</button>
                     </form>
                 </div>
 
                 <div class="col-sm-3">
-                    <h5>Спринт</h5>
+                    <h5>Список спринтов</h5>
                     <form method="POST" action="/sprint_list">{% csrf_token %}
                         <div class="form-group">
                             <label for="sprint">Выбрать спринт</label>

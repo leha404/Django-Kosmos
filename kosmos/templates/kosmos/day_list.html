@@ -14,9 +14,9 @@
     <body>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Спринт</a></li>
-                <li class="breadcrumb-item"><a href="#">Неделя</a></li>
-                <li class="breadcrumb-item active" aria-current="page">День</li>
+                <li class="breadcrumb-item"><a href="#">Спринты</a></li>
+                <li class="breadcrumb-item"><a href="#">Недели</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Дни</li>
             </ol>
         </nav>
 
@@ -26,21 +26,49 @@
                     <form method="POST" action="/week_list">{% csrf_token %}
                         <input type="text" value="{{ sprintId }}" name="sprintId" hidden />
                         <input type="text" value="{{ weekId }}" name="weekId" hidden />
-                        <button type="submit" class="btn btn-primary"><< Неделя</button>
+                        <button type="submit" class="btn btn-primary"><< Недели</button>
                     </form>
                 </div>
 
                 <div class="col-sm-3">
-                    <h5>День</h5>
+                    <h5>Дни недели</h5>
                     <form method="POST" action="/day_list">{% csrf_token %}
                         <div class="form-group">
                             <label for="day">Выбрать день</label>
                             <select class="form-control" name="selectedId">
                                 {% for d in days %}
                                     {% if d.pk == selected.pk %}
-                                        <option value="{{ d.pk }}" selected>{{ d.day_number }} - {{ d.day_date }}</option>
+                                        {% if d.day_number == 1 %}
+                                            <option value="{{ d.pk }}" selected>ПН: {{ d.day_date }}</option>
+                                        {% elif d.day_number == 2 %}
+                                            <option value="{{ d.pk }}" selected>ВТ: {{ d.day_date }}</option>
+                                        {% elif d.day_number == 3 %}
+                                            <option value="{{ d.pk }}" selected>СР: {{ d.day_date }}</option>
+                                        {% elif d.day_number == 4 %}
+                                            <option value="{{ d.pk }}" selected>ЧТ: {{ d.day_date }}</option>
+                                        {% elif d.day_number == 5 %}
+                                            <option value="{{ d.pk }}" selected>ПТ: {{ d.day_date }}</option>
+                                        {% elif d.day_number == 6 %}
+                                            <option value="{{ d.pk }}" selected>СБ: {{ d.day_date }}</option>
+                                        {% else %}
+                                            <option value="{{ d.pk }}" selected>ВС: {{ d.day_date }}</option>
+                                        {% endif %}
                                     {% else %}
-                                        <option value="{{ d.pk }}">{{ d.day_number }} - {{ d.day_date }}</option>
+                                        {% if d.day_number == 1 %}
+                                            <option value="{{ d.pk }}">ПН: {{ d.day_date }}</option>
+                                        {% elif d.day_number == 2 %}
+                                            <option value="{{ d.pk }}">ВТ: {{ d.day_date }}</option>
+                                        {% elif d.day_number == 3 %}
+                                            <option value="{{ d.pk }}">СР: {{ d.day_date }}</option>
+                                        {% elif d.day_number == 4 %}
+                                            <option value="{{ d.pk }}">ЧТ: {{ d.day_date }}</option>
+                                        {% elif d.day_number == 5 %}
+                                            <option value="{{ d.pk }}">ПТ: {{ d.day_date }}</option>
+                                        {% elif d.day_number == 6 %}
+                                            <option value="{{ d.pk }}">СБ: {{ d.day_date }}</option>
+                                        {% else %}
+                                            <option value="{{ d.pk }}">ВС: {{ d.day_date }}</option>
+                                        {% endif %}
                                     {% endif %}
                                 {% endfor %}
                             </select>
@@ -123,12 +151,12 @@
 
                         <div class="form-group">
                             <label for="ref1">Достижение дня</label>
-                            <input type="text" class="form-control" name="ref1" value="{{ selected.reflexy1 }}" />
+                            <textarea rows="3" cols="30" class="form-control" name="ref1">{{ selected.reflexy1 }}</textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="ref2">Сказать спасибо</label>
-                            <input type="text" class="form-control" name="ref2" value="{{ selected.reflexy2 }}" />
+                            <textarea rows="3" cols="30" class="form-control" name="ref2">{{ selected.reflexy2 }}</textarea>
                         </div>
 
                         <input type="text" value="{{ sprintId }}" name="sprintId" hidden />

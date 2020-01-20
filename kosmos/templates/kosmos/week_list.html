@@ -14,9 +14,9 @@
     <body>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Спринт</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Неделя</li>
-                <li class="breadcrumb-item"><a href="#">День</a></li>
+                <li class="breadcrumb-item"><a href="#">Спринты</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Недели</li>
+                <li class="breadcrumb-item"><a href="#">Дни</a></li>
             </ol>
         </nav>
 
@@ -26,27 +26,27 @@
                     <form method="POST" action="/day_list">{% csrf_token %}
                         <input type="text" value="{{ sprintId }}" name="sprintId" hidden />
                         <input type="text" value="{{ selected.pk }}" name="weekId" hidden />
-                        <button type="submit" class="btn btn-primary">>> День</button>
+                        <button type="submit" class="btn btn-primary">>> Дни</button>
                     </form>
                     <br>
                     <form method="POST" action="/sprint_list">{% csrf_token %}
                         <input type="text" value="{{ sprintId }}" name="sprintId" hidden />
                         <input type="text" value="{{ selected.pk }}" name="weekId" hidden />
-                        <button type="submit" class="btn btn-primary"><< Спринт</button>
+                        <button type="submit" class="btn btn-primary"><< Спринты</button>
                     </form>
                 </div>
 
                 <div class="col-sm-3">
-                    <h5>Неделя</h5>
+                    <h5>Список недель (9 недель)</h5>
                     <form method="POST" action="/week_list">{% csrf_token %}
                         <div class="form-group">
                             <label for="week">Выбрать неделю</label>
                             <select class="form-control" name="weekId">
                                 {% for w in weeks %}
                                     {% if w == selected %}
-                                        <option value="{{ w.pk }}" selected>{{ w.week_number }} - {{ w.date_begin }}</option>
+                                        <option value="{{ w.pk }}" selected>Нд {{ w.week_number }}: {{ w.date_begin }}</option>
                                     {% else %}
-                                        <option value="{{ w.pk }}">{{ w.week_number }} - {{ w.date_begin }}</option>
+                                        <option value="{{ w.pk }}">Нд {{ w.week_number }}: {{ w.date_begin }}</option>
                                     {% endif %}
                                 {% endfor %}
                             </select>
@@ -61,34 +61,34 @@
                     <form method="POST" action="/week_update">{% csrf_token %}
                         <div class="form-group">
                             <label for="g1">1. {{ goals.0.text }}</label>
-                            <input type="text" class="form-control" name="g1" value="{{ selected.goal1 }}">
+                            <textarea rows="3" cols="30" class="form-control" name="g1">{{ selected.goal1 }}</textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="g2">2. {{ goals.1.text }}</label>
-                            <input type="text" class="form-control" name="g2" value="{{ selected.goal2 }}">
+                            <textarea rows="3" cols="30" class="form-control" name="g2">{{ selected.goal2 }}</textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="g3">3. {{ goals.2.text }}</label>
-                            <input type="text" class="form-control" name="g3" value="{{ selected.goal3 }}">
+                            <textarea rows="3" cols="30" class="form-control" name="g3">{{ selected.goal3 }}</textarea>
                         </div>
 
                         <h4>Рефлексия</h4>
 
                         <div class="form-group">
                             <label for="ref1">Что я выучил?</label>
-                            <input type="text" class="form-control" name="ref1" value="{{ selected.reflexy1 }}">
+                            <textarea rows="3" cols="30" class="form-control" name="ref1">{{ selected.reflexy1 }}</textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="ref2">Кому сказать спасибо</label>
-                            <input type="text" class="form-control" name="ref2" value="{{ selected.reflexy2 }}">
+                            <textarea rows="3" cols="30" class="form-control" name="ref2">{{ selected.reflexy2 }}</textarea>
                         </div>
 
                         <div class="form-group">
                             <label for="ref3">Что я могу улучшить?</label>
-                            <input type="text" class="form-control" name="ref3" value="{{ selected.reflexy3 }}">
+                            <textarea rows="3" cols="30" class="form-control" name="ref3">{{ selected.reflexy3 }}</textarea>
                         </div>
 
                         <input type="text" value="{{ sprintId }}" name="sprintId" hidden />
