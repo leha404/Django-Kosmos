@@ -17,7 +17,7 @@
                 <li class="breadcrumb-item"><a href="#">Спринты</a></li>
                 <li class="breadcrumb-item"><a href="#">Недели</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Дни</li>
-                <!-- <li class="breadcrumb-item"> :D Привет! Не забывайте тыкать кнопку <a href="#">"Выбрать"</a> после списка! На сайте пока нет JS :) Попозже исправлю</li> -->
+                <li class="breadcrumb-item"> :D Привет! Не забывайте тыкать кнопку <a href="#">"Выбрать"</a> после списка! На сайте пока нет JS :) Попозже исправлю</li>
             </ol>
         </nav>
 
@@ -134,9 +134,9 @@
                         <h4>Список привычек</h4>
                         <div class="form-group">
                             <ul>
-                                {% for h in habits %}
-                                    {% for dh in dayHabit %}
-                                        {% if h == dh.habit_id %}
+                                {% for h in habbits %}
+                                    {% for dh in dayHabbit %}
+                                        {% if h == dh.habbits_id %}
                                             {% if dh.is_complete == 1 %}
                                                 <li>{{ h.text }} <input type="checkbox" name="dh{{ dh.pk }}" checked></li>
                                             {% else %}
