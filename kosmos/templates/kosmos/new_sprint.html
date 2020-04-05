@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Kosmos</title>
+        
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+    </head>
+
+    <body>
+
+        {% if not user.is_authenticated %}
+            <h3>Похоже, тут пока нет данных.</h3>
+            <p>Войдите от имени администратора</p>
+        {% else %}
+
+        <h3>Давайте создадим новый спринт! {{ err_message }}</h3>
+        <br>
+
+        <form method="POST" action="/create_sprint">{% csrf_token %}
+
+        <div class="container">
+            <div class="row">
+
+                <div class="col-sm-2">
+                    <h4>Cпринт</h4>
+                    <div class="form-group">
+                        <label for="sprDateBeg">Дата начала</label>
+                        <label for="sprDateBeg">(Понедельник!)</label>
+                        <br>
+                        <input type="text" name="sprDateBeg" placeholder="YYYY-MM-DD" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sprRew">*Награда</label>
+                        <br>
+                        <input type="text" name="sprRew" placeholder="Введите награду" />
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <h4>Цели на спринт</h4>
+
+                    <div class="form-group">
+                        <p>Саморазвитие</p>
+
+                        <input type="text" name="goal100" placeholder="Цель" />
+
+                        <ul>
+                            <li>
+                                <input type="text" name="goal110" placeholder="*Этап1" />
+
+                                <ul>
+                                    <li><input type="text" name="goal111" placeholder="*Задача1" /></li>
+                                    <li><input type="text" name="goal112" placeholder="*Задача2" /></li>
+                                    <li><input type="text" name="goal113" placeholder="*Задача3" /></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <input type="text" name="goal120" placeholder="*Этап2" />
+
+                                <ul>
+                                    <li><input type="text" name="goal121" placeholder="*Задача1" /></li>
+                                    <li><input type="text" name="goal122" placeholder="*Задача2" /></li>
+                                    <li><input type="text" name="goal123" placeholder="*Задача3" /></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <input type="text" name="goal130" placeholder="*Этап3" />
+
+                                <ul>
+                                    <li><input type="text" name="goal131" placeholder="*Задача1" /></li>
+                                    <li><input type="text" name="goal132" placeholder="*Задача2" /></li>
+                                    <li><input type="text" name="goal133" placeholder="*Задача3" /></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-3">
+                    <h4>(Подумать)</h4>
+
+                    <div class="form-group">
+                        <p>Профессиональная</p>
+
+                        <input type="text" name="goal200" placeholder="Цель" />
+
+                        <ul>
+                            <li>
+                                <input type="text" name="goal210" placeholder="*Этап1" />
+
+                                <ul>
+                                    <li><input type="text" name="goal211" placeholder="*Задача1" /></li>
+                                    <li><input type="text" name="goal212" placeholder="*Задача2" /></li>
+                                    <li><input type="text" name="goal213" placeholder="*Задача3" /></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <input type="text" name="goal220" placeholder="*Этап2" />
+
+                                <ul>
+                                    <li><input type="text" name="goal221" placeholder="*Задача1" /></li>
+                                    <li><input type="text" name="goal222" placeholder="*Задача2" /></li>
+                                    <li><input type="text" name="goal223" placeholder="*Задача3" /></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <input type="text" name="goal230" placeholder="*Этап3" />
+
+                                <ul>
+                                    <li><input type="text" name="goal231" placeholder="*Задача1" /></li>
+                                    <li><input type="text" name="goal232" placeholder="*Задача2" /></li>
+                                    <li><input type="text" name="goal233" placeholder="*Задача3" /></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-3">
+                    <h4>(5 раз "Почему?")</h4>
+
+                    <div class="form-group">
+                        <p>Отношения</p>
+
+                        <input type="text" name="goal300" placeholder="Цель" />
+
+                        <ul>
+                            <li>
+                                <input type="text" name="goal310" placeholder="*Этап1" />
+
+                                <ul>
+                                    <li><input type="text" name="goal311" placeholder="*Задача1" /></li>
+                                    <li><input type="text" name="goal312" placeholder="*Задача2" /></li>
+                                    <li><input type="text" name="goal313" placeholder="*Задача3" /></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <input type="text" name="goal320" placeholder="*Этап2" />
+
+                                <ul>
+                                    <li><input type="text" name="goal321" placeholder="*Задача1" /></li>
+                                    <li><input type="text" name="goal322" placeholder="*Задача2" /></li>
+                                    <li><input type="text" name="goal323" placeholder="*Задача3" /></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <input type="text" name="goal330" placeholder="*Этап3" />
+
+                                <ul>
+                                    <li><input type="text" name="goal333" placeholder="*Задача1" /></li>
+                                    <li><input type="text" name="goal333" placeholder="*Задача2" /></li>
+                                    <li><input type="text" name="goal333" placeholder="*Задача3" /></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <h4>Новые привычки</h4>
+                    <div class="form-group">
+                        <label for="hab1">1 привычка</label>
+                        <br>
+                        <input type="text" name="hab1" placeholder="Не есть фастфуд" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hab2">*2 привычка</label>
+                        <br>
+                        <input type="text" name="hab2" placeholder="Гулять полчаса в день" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hab3">*3 привычка</label>
+                        <br>
+                        <input type="text" name="hab3" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hab4">*4 привычка</label>
+                        <br>
+                        <input type="text" name="hab4" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hab5">*5 привычка</label>
+                        <br>
+                        <input type="text" name="hab5" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary">Создать</button>
+        </form> 
+
+        {% endif %}
+
+        <!-- Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+</html>

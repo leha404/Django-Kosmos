@@ -4,7 +4,6 @@ from django.utils import timezone
 
 
 class Sprint(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date_begin = models.DateField()
     date_end = models.DateField()
     reward = models.CharField(max_length=200, blank=True, null=True)

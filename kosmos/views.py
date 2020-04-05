@@ -9,41 +9,116 @@ from .models import Sprint, Goal, Habit, Week, Day, Day_habit, Task
 # and defs for sprint beyond
 # 
 
-def sprint_list(request):
-    sprintId = request.POST.get("sprintId", "")
-    weekId = request.POST.get("weekId", "")
+def new_sprint(request):
+    isCreate = request.POST.get("isCreate", "")
 
-    if (sprintId != ""):
-        return sprint_get_selected(request, sprintId, weekId)
+    if (isCreate == ""):
+        sprints = Sprint.objects.order_by('date_begin')
+        if len(sprints) != 0:
+            return sprint_list(request)
 
-    sprints = Sprint.objects.order_by('date_begin')
+    return render(request, 'kosmos/new_sprint.html')
 
-    # TODO: Mock :)
-    if len(sprints) == 0:
-        return render(request, 'kosmos/oops.html', {'text': 'Нет спринтов'})
+def create_sprint(request):
+    sprDateBeg = request.POST.get("sprDateBeg", "")
+    sprRew = request.POST.get("sprRew", "")
 
-    # Here selected is like Sprint object
-    selected = sprints[0]
-    goals = sprint_get_goals(selected.pk)
-    habits = Habit.objects.filter(sprint_id=selected.pk)
+    if sprDateBeg == "":
+        return render(request, 'kosmos/new_sprint.html', {'err_message': '(Вы не ввели дату для спринта)'})
+    
+    # Yes, yes... I know. Bad solution) But Ok :D
+    # It's a study project)
 
-    if len(habits) == 0:
-        habits = []
+    goals = []
+    codes = [100,110,111,112,113,120,121,122,123,130,131,132,133,200,210,211,212,213,220,221,222,223,230,231,232,233,300,310,311,312,313,320,321,322,323,330,331,332,333]
 
-    return render(request, 'kosmos/sprint_list.html', {'sprints': sprints, 'selected': selected, 'sprintId': sprintId, 'goals': goals, 'habits': habits})
+    # Oh my God... :D
+    goal100 = request.POST.get("goal100", "")
+    goals.append(goal100)
+    goals.append(request.POST.get("goal110", ""))
+    goals.append(request.POST.get("goal111", ""))
+    goals.append(request.POST.get("goal112", ""))
+    goals.append(request.POST.get("goal113", ""))
+    goals.append(request.POST.get("goal120", ""))
+    goals.append(request.POST.get("goal121", ""))
+    goals.append(request.POST.get("goal122", ""))
+    goals.append(request.POST.get("goal123", ""))
+    goals.append(request.POST.get("goal130", ""))
+    goals.append(request.POST.get("goal131", ""))
+    goals.append(request.POST.get("goal132", ""))
+    goals.append(request.POST.get("goal133", ""))
+    
+    goal200 = request.POST.get("goal200", "")
+    goals.append(goal200)
+    goals.append(request.POST.get("goal210", ""))
+    goals.append(request.POST.get("goal211", ""))
+    goals.append(request.POST.get("goal212", ""))
+    goals.append(request.POST.get("goal213", ""))
+    goals.append(request.POST.get("goal220", ""))
+    goals.append(request.POST.get("goal221", ""))
+    goals.append(request.POST.get("goal222", ""))
+    goals.append(request.POST.get("goal223", ""))
+    goals.append(request.POST.get("goal230", ""))
+    goals.append(request.POST.get("goal231", ""))
+    goals.append(request.POST.get("goal232", ""))
+    goals.append(request.POST.get("goal233", ""))
 
-def sprint_data(request):
-    sprintId = request.POST.get("sprintId", "")
+    goal300 = request.POST.get("goal300", "")
+    goals.append(goal300)
+    goals.append(request.POST.get("goal310", ""))
+    goals.append(request.POST.get("goal311", ""))
+    goals.append(request.POST.get("goal312", ""))
+    goals.append(request.POST.get("goal313", ""))
+    goals.append(request.POST.get("goal320", ""))
+    goals.append(request.POST.get("goal321", ""))
+    goals.append(request.POST.get("goal322", ""))
+    goals.append(request.POST.get("goal323", ""))
+    goals.append(request.POST.get("goal330", ""))
+    goals.append(request.POST.get("goal331", ""))
+    goals.append(request.POST.get("goal332", ""))
+    goals.append(request.POST.get("goal333", ""))
+    
+    if goal100 == "" or goal200 == "" or goal300 == "":
+        return render(request, 'kosmos/new_sprint.html', {'err_message': '(Введите главные цели)'})
+
+    habits = []
+    habits.append(request.POST.get("hab1", ""))
+    habits.append(request.POST.get("hab2", ""))
+    habits.append(request.POST.get("hab3", ""))
+    habits.append(request.POST.get("hab4", ""))
+    habits.append(request.POST.get("hab5", ""))
+
+    hab1 = request.POST.get("hab1", "")
+
+    if hab1 == "":
+        return render(request, 'kosmos/new_sprint.html', {'err_message': '(Введите хотя бы одну привычку)'})
+
+    try:
+        # date_end be sprDateBeg, but after we will update it!
+        Sprint.objects.create(date_begin=sprDateBeg, date_end=sprDateBeg, reward=sprRew)
+    except:
+        return render(request, 'kosmos/new_sprint.html', {'err_message': '(Не удалось создать спринт)'})
+
+    sprint = Sprint.objects.filter(date_begin=sprDateBeg)
+
+    # Goals
+    for i in range(39):
+        if goals[i] != "":
+            Goal.objects.create(text=goals[i], is_complete=0, code_heirarchy=codes[i], sprint_id=sprint[0])
+    
+    for i in range(5):
+        if habits[i] != "":
+            Habit.objects.create(text=habits[i], count_complete=0, sprint_id=sprint[0])
+
+    # Create Sprint Data (Yes, it was in another method, but now it here!)
+    # 
+    # sprint_data
+    sprintId = sprint[0].pk
     weeks = Week.objects.filter(sprint_id=sprintId).order_by('date_begin')
-
-    # TODO: Mock :)
-    if len(weeks) != 0:
-        return render(request, 'kosmos/oops.html', {'text': 'Данные уже есть, не тыкай эту кнопку :D'})
     
     sprints = Sprint.objects.order_by('date_begin')
-    
-    # Should write .get() or selected will be not an object, but QuerySet
-    selected = Sprint.objects.filter(pk=sprintId).get()
+
+    selected = sprint[0]
 
     lastDate = selected.date_begin
 
@@ -52,6 +127,10 @@ def sprint_data(request):
         nextDate = lastDate + timedelta(days=6)
         Week.objects.create(week_number=i, date_begin=lastDate, date_end=nextDate, sprint_id=selected, goal1="", goal2="", goal3="", reflexy1="", reflexy2="", reflexy3="")
         lastDate = nextDate + timedelta(days=1)
+
+        # Update date_end in Sprint
+        if i == 9:
+            Sprint.objects.filter(pk=selected.pk).update(date_end=nextDate)
 
     weeks = Week.objects.filter(sprint_id=sprintId).order_by('date_begin')
 
@@ -70,6 +149,31 @@ def sprint_data(request):
                 Day_habit.objects.create(is_complete=0, day_id=d, habit_id=h)
     
     goals = sprint_get_goals(selected.pk)
+
+    if len(habits) == 0:
+        habits = []
+
+    # Renew object
+    selected = Sprint.objects.filter(pk=selected.pk).get()
+
+    return render(request, 'kosmos/sprint_list.html', {'sprints': sprints, 'selected': selected, 'sprintId': sprintId, 'goals': goals, 'habits': habits})
+
+def sprint_list(request):
+    sprintId = request.POST.get("sprintId", "")
+    weekId = request.POST.get("weekId", "")
+
+    if (sprintId != ""):
+        return sprint_get_selected(request, sprintId, weekId)
+
+    sprints = Sprint.objects.order_by('date_begin')
+
+    if len(sprints) == 0:
+        return render(request, 'kosmos/new_sprint.html')
+
+    # Here selected is like Sprint object
+    selected = sprints[0]
+    goals = sprint_get_goals(selected.pk)
+    habits = Habit.objects.filter(sprint_id=selected.pk)
 
     if len(habits) == 0:
         habits = []
