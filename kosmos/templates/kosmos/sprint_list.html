@@ -51,10 +51,12 @@
                         <button type="submit" class="btn btn-primary">Выбрать</button>
                     </form>
                     <br>
-                    <form method="POST" action="/new_sprint">{% csrf_token %}
-                        <input type="text" value="1" name="isCreate" hidden />
-                        <button type="submit" class="btn btn-primary">Создать</button>
-                    </form>
+                    {% if user.is_authenticated %}
+                        <form method="POST" action="/new_sprint">{% csrf_token %}
+                            <input type="text" value="1" name="isCreate" hidden />
+                            <button type="submit" class="btn btn-primary">Создать</button>
+                        </form>
+                    {% endif %}
                 </div>
                 <div class="col-sm">
                     <div class="row">
