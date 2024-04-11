@@ -24,3 +24,6 @@ python manage.py runserver
 
 7) Create SuperUser:
 python manage.py createsuperuser
+
+Next: Go to SITE_URL/admin page for auth.
+And get working App!
