@@ -19,11 +19,11 @@ pip install -r requirements.txt
 5) Migrate database:
 python manage.py migrate
 
-6) Run server:
-python manage.py runserver
-
-7) Create SuperUser:
+6) Create SuperUser:
 python manage.py createsuperuser
+
+7) Run server:
+python manage.py runserver
 
 Next: Go to SITE_URL/admin page for auth.
 And get working App!
