@@ -1,4 +1,4 @@
-Learning Django. (And "ProstoKosmos")
+Learning Django. "Kosmos planner"
 
 Inspired by DjangoGirls:
 https://tutorial.djangogirls.org/ru/django/
