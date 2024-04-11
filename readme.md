@@ -27,3 +27,14 @@ python manage.py runserver
 
 Next: Go to SITE_URL/admin page for auth.
 And get working App!
+
+<!-- Below: instruction to deploy on PythonAnywhere -->
+Deploy instruction:
+
+1) Register an account on PythonAnywhere.com
+2) Go to Account Tab and create API token if not exists
+3) Make a Bash console and follow next instructions:
+
+- pip3.6 install --user pythonanywhere
+- pa_autoconfigure_django.py https://github.com/<your-github>/<your-repo>.git
+- python manage.py createsuperuser
