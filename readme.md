@@ -37,5 +37,4 @@ Deploy instruction:
 
 - pip3.6 install --user pythonanywhere
 - pa_autoconfigure_django.py https://github.com/YOUR_GITHUB/YOUR_REPO.git
-- cd YOUR_PROJECT_NAME
 - python manage.py createsuperuser
